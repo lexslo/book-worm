@@ -49,11 +49,33 @@ const resolvers = {
             return { token, user };
         },
 
-        saveBook: async (parent, args) => {
+        saveBook: async (parent, args, context) => {
+            // only allow if user is logged in
+            if (context.user) {
+                const userBooks = await User.findOneAndUpdate(
+                    { id: context.user._id },
+                    { $addToSet: { savedBooks: args.bookId } },
+                    { new: true }
+                );
 
+                return userBooks;
+            }
+
+            throw new AuthenticationError('You must be logged in to save a book!');
         },
 
-        removeBook: async (parent, args) => {
+        removeBook: async (parent, { bookId }, context) => {
+            //  check if user is logged in before removing
+            if (context.user) {
+                const updatedBooks = await User.findOneAndUpdate(
+                    // get user by logged in ID
+                    { id: context.user._id },
+                    // remove book from savedBooks array by bookId
+                    { $pull: { savedBooks: bookId } },
+                    // return updated information
+                    { new: true }
+                )
+            }
 
         }
     }
