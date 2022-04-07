@@ -6,33 +6,27 @@ import SearchBooks from './pages/SearchBooks';
 import SavedBooks from './pages/SavedBooks';
 import Navbar from './components/Navbar';
 
-// const httpLink = createHttpLink({
-//   uri: '/graphql'
-// });
-
-// const authLink = setContext((_, { headers }) => {
-//   const token = localStorage.getItem('id_token');
-
-//   return {
-//     headers: {
-//       ...headers,
-//       authorization: token ? `Bearer ${token}` : ''
-//     }
-//   }
-// });
-
-const client = new ApolloClient({
-  request: operation => {
-    const token = localStorage.getItem('id_token');
-    
-    operation.setContext({
-      headers: {
-        authorization: token ? `Bearer ${token}` : ''
-      }
-    });
-  },
+const httpLink = createHttpLink({
   uri: '/graphql'
 });
+
+const authLink = setContext((_, { headers }) => {
+  const token = localStorage.getItem('id_token');
+
+  return {
+    headers: {
+      ...headers,
+      authorization: token ? `Bearer ${token}` : ''
+    }
+  }
+});
+
+const client = new ApolloClient({
+  // combine the authLink and httpLink objects so that every request retrieves 
+  // the token and sets the request headers before making the request to the API
+  link: authLink.concat(httpLink),
+  cache: new InMemoryCache()
+})
 
 function App() {
   return (

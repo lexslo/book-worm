@@ -53,7 +53,7 @@ const resolvers = {
             // only allow if user is logged in
             if (context.user) {
                 const userBooks = await User.findByIdAndUpdate(
-                    { id: context.user._id },
+                    context.user._id ,
                     { $addToSet: { savedBooks: input } },
                     { new: true, runValidators: true }
                 );
