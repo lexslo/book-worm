@@ -61,6 +61,7 @@ const SearchBooks = () => {
     // find the book in `searchedBooks` state by the matching id
     const bookToSave = searchedBooks.find((book) => book.bookId === bookId);
     console.log(bookId);
+    console.log(bookToSave);
 
     // get token
     const token = Auth.loggedIn() ? Auth.getToken() : null;
@@ -70,17 +71,18 @@ const SearchBooks = () => {
     }
 
     try {
-      const { data } = await saveBook({
-        variables: { input: bookToSave }
+      await saveBook({
+        variables: { book: bookToSave }
       });
 
       if (error) {
         throw new Error('Something went wrong!')
       }
-      console.log('Saved book: ' + data);
+
       // if book successfully saves to user's account, save book id to state
       setSavedBookIds([...savedBookIds, bookToSave.bookId]);
     } catch (err) {
+      console.log('Could not save book!');
       console.error(err);
     }
   };
@@ -135,7 +137,7 @@ const SearchBooks = () => {
                       className='btn-block btn-info'
                       onClick={() => handleSaveBook(book.bookId)}>
                       {savedBookIds?.some((savedBookId) => savedBookId === book.bookId)
-                        ? 'This book has already been saved!'
+                        ? 'Saved'
                         : 'Save this Book!'}
                     </Button>
                   )}

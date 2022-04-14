@@ -49,13 +49,13 @@ const resolvers = {
             return { token, user };
         },
 
-        saveBook: async (parent, { input }, context) => {
+        saveBook: async (parent, { book }, context) => {
             // only allow if user is logged in
             if (context.user) {
-                const userBooks = await User.findByIdAndUpdate(
-                    context.user._id ,
-                    { $addToSet: { savedBooks: input } },
-                    { new: true, runValidators: true }
+                const userBooks = await User.findOneAndUpdate(
+                    { _id: context.user._id },
+                    { $addToSet: { savedBooks: book } },
+                    { new: true }
                 );
 
                 return userBooks;
@@ -75,6 +75,8 @@ const resolvers = {
                     // return updated information
                     { new: true }
                 )
+
+                return updatedBooks;
             }
 
             throw new AuthenticationError('You must be logged in!');
