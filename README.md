@@ -26,6 +26,7 @@ This app was originally built with a RESTful API and refactores to be a GraphQL 
 - WHEN I click on the Logout button, I am logged out of the site and presented with a menu with the options Search for Books and Login/Signup and an input field to search for books and a submit button  
 
 ## Layout
+<img width="972" alt="Screen Shot 2022-04-14 at 4 42 11 PM" src="https://user-images.githubusercontent.com/92759824/163497373-67de059e-a29c-445c-9aee-021c8df1237f.png">
 
 ## Link to Deployed App
 https://lexslo-book-worm.herokuapp.com/
