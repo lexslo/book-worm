@@ -3,7 +3,7 @@
 ## Description
 A book search engine that uses the Google Books API.
 
-This app was originally built with a RESTful API and refactored to be a GraphQL API built with Apollo Server. This uses the MERN stack:
+This app was originally built with a RESTful API. It has been refactored to be a GraphQL API built with Apollo Server. This uses the MERN stack:
 
 - React front end
 - MongoDB database
