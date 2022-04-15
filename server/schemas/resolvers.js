@@ -56,8 +56,7 @@ const resolvers = {
                     { _id: context.user._id },
                     { $addToSet: { savedBooks: book } },
                     { new: true }
-                )
-                    .populate('savedBooks');
+                );
 
                 return userBooks;
             }
@@ -70,13 +69,12 @@ const resolvers = {
             if (context.user) {
                 const updatedBooks = await User.findOneAndUpdate(
                     // get user by logged in ID
-                    { id: context.user._id },
+                    { _id: context.user._id },
                     // remove book from savedBooks array by bookId
-                    { $pull: { savedBooks: bookId } },
+                    { $pull: { savedBooks: { bookId: bookId } } },
                     // return updated information
-                    { new: true }
-                )
-                    .populate('savedBooks');
+                    { new: true, runValidators: true }
+                );
                     
                 return updatedBooks;
             }
